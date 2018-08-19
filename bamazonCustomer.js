@@ -1,12 +1,7 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
 var quantity = 0;
-var questions = [
-    '',
-    '',
-    '',
-    ''
-];
+var totalOrder = [];
 
 // inquirer.prompt([{
 //     name: 'name',
@@ -60,25 +55,32 @@ function runSearch() {
 
 function getQuantity(answer) {
     if(answer.askID === 'exit'){
-        return 'Thank you for vising us!';
+        console.log('Thank you for vising us!');
+        console.log('your total bill is : ' + calculatePrice(totalOrder));
+        connection.end();
+        return;
     }
     var quanReq = parseInt(answer.askQuantity);
     var itemReq = parseInt(answer.askID);
     console.log(answer.askQuantity, answer.askID);
-    var query = "SELECT stock_quantity FROM products WHERE ?";
+    var query = "SELECT stock_quantity, price FROM products WHERE ?";
     connection.query(query, { item_id: answer.askID }, function(err, res) {
         if(err) {
             connection.end();
             throw err;
         }
         quantity = parseInt(res[0].stock_quantity);
+        price = parseFloat(res[0].price);
         if(quanReq > quantity){
             console.log('We don\'t have this much quantity available. may be try again?');
-            return;
+            runSearch();
         } else {
             var newQuantity = quantity - quanReq;
             console.log('placing your order......');
             updateRows(newQuantity, itemReq);
+            totalOrder.push([quanReq,price]);
+            console.log('order placed!\n');
+            runSearch();
         }
     });
 }
@@ -90,15 +92,13 @@ function updateRows(quantity, item) {
             connection.end();
             throw err;
         }
-        console.log('order placed!\n'+JSON.stringify(result.affectedRows));
-        connection.end();
     });
 }
-  
-function songSearch() {
-    
-}
-  
-function songAndAlbumSearch() {
-    
+
+function calculatePrice(totalOrder){
+    var tp = 0.0;
+    totalOrder.forEach(arr => {
+        tp += (arr[0] * arr[1]);
+    });
+    return tp;
 }
