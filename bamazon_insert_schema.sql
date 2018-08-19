@@ -1,0 +1,10 @@
+insert into products values(1, 'H&S shampoo', 'Pharmacy', 12.50 , 4);
+insert into products values(2, 'Snickers', 'Chcolates', 10.00, 12);
+insert into products values(3,'Kellogs Flakes','Cornflakes', 25.25, 8);
+insert into products values(4, 'L\'real lipstick', 'Grooming', 35.99 , 9);
+insert into products values(5, 'Raw Steak', 'Food', 8, 6);
+insert into products values(6,'Disprin','Pharmacy', 2.25, 100);
+insert into products values(7, 'Five Star', 'chocolates', 5.00, 24);
+insert into products values(8, 'Mr.Flakes', 'Cornflakes', 18.50, 10);
+insert into products values(9,'Gillete Mach3','Grooming', 14, 6);
+insert into products values(10, 'Naan Bread', 'Food', 5.99 , 20);
